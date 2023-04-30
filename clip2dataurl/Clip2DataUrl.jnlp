@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Deprecated, probably will not work anywhere! -->
+<jnlp spec="8.2">
+    <resources>
+        <jar href="https://github.com/jrw77/Clip2DataUrl/raw/master/clip2dataurl/Clip2DataUrl.jar" />
+    </resources>
+    <application-desc main-class="ClipToDataUrl"/>
+</jnlp>
+<!-- Deprecated, probably will not work! -->
