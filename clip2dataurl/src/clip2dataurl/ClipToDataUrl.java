@@ -40,15 +40,15 @@ public class ClipToDataUrl {
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable transferable = clipboard.getContents(null);
 		String dataURL = null;
-		if (transferable.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+		if (transferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+			// is a file or more prexcisely, a list of files
+			dataURL = getFileFromClipboard(transferable);
+		} else if (transferable.isDataFlavorSupported(DataFlavor.imageFlavor)) {
 			// is an image
 			dataURL = getImageFromClipboard(transferable);
 		} else if (transferable.isDataFlavorSupported(DataFlavor.fragmentHtmlFlavor)) {
 			// is html
 			dataURL = getHtmlFromClipboard(transferable);
-		} else if (transferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-			// is a file ore mor prexcisely, a list of files
-			dataURL = getFileFromClipboard(transferable);
 		} else if (transferable.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
 			// is plain text
 			dataURL = getTextFromClipboard(transferable);
@@ -80,12 +80,24 @@ public class ClipToDataUrl {
 			throws UnsupportedFlavorException, IOException {
 		Image img = (Image) transferable.getTransferData(DataFlavor.imageFlavor);
 		if (img != null) {
-			BufferedImage buffered = (BufferedImage) img;
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			String header = "data:image/png;base64,";
 			bos.write(header.getBytes());
 			OutputStream wos = Base64.getEncoder().wrap(bos);
-			ImageIO.write(buffered, "png", wos);
+			if (img instanceof BufferedImage) {
+				ImageIO.write((BufferedImage)img, "png", wos);
+			}
+//			else if (img instanceof java.awt.image.MultiResolutionImage) {  // needs Java 9+
+//				Image img2 = ((java.awt.image.MultiResolutionImage)img).getResolutionVariant(5, 5);
+//				if (img2 instanceof BufferedImage) {
+//					ImageIO.write((BufferedImage)img2, "png", wos);
+//				}else{
+//					return "error: java-Multiresolution image not in recognized format, try java 1.8";
+//				}
+//			}
+			else{
+				return "error: java-image not in recognized format, try java 1.8";
+			}
 			wos.close();
 			if (DEBUG1) System.out.println(bos.toString());
 			return bos.toString();
