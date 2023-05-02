@@ -30,8 +30,8 @@ import javax.imageio.ImageIO;
  */
 public class ClipToDataUrl {
 
-	private static final boolean DEBUG1 = false;
-	private static final boolean DEBUG2 = false;
+	public static final boolean DEBUG1 = false;
+	public static final boolean DEBUG2 = false;
 
 	public static void main(String[] args) throws UnsupportedFlavorException, IOException, InterruptedException {
 		if (args.length > 0 && (args[0].equals("-h") || args[0].equals("--help"))) {
@@ -84,20 +84,7 @@ public class ClipToDataUrl {
 			String header = "data:image/png;base64,";
 			bos.write(header.getBytes());
 			OutputStream wos = Base64.getEncoder().wrap(bos);
-			if (img instanceof BufferedImage) {
-				ImageIO.write((BufferedImage)img, "png", wos);
-			}
-//			else if (img instanceof java.awt.image.MultiResolutionImage) {  // needs Java 9+
-//				Image img2 = ((java.awt.image.MultiResolutionImage)img).getResolutionVariant(5, 5);
-//				if (img2 instanceof BufferedImage) {
-//					ImageIO.write((BufferedImage)img2, "png", wos);
-//				}else{
-//					return "error: java-Multiresolution image not in recognized format, try java 1.8";
-//				}
-//			}
-			else{
-				return "error: java-image not in recognized format, try java 1.8";
-			}
+			ImageWriter.writeImageToStream(img, wos); 
 			wos.close();
 			if (DEBUG1) System.out.println(bos.toString());
 			return bos.toString();
