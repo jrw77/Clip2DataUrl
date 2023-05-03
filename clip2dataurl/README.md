@@ -14,10 +14,11 @@ bisher getesteten Formate funktioniert.
 - Die Zwischenablage enthält nun die Daten-URL.
 - Testen: einfach in die URL-Zeile eines Browsers einfügen.
 - Für einfachere Verwendung: eine Tastaturabkürzung oder ein Icon anlegen.
+- Beispiel: ein Z als Bild: ![Beispiel](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAPCAIAAAC9X6JnAAAAuUlEQVR4XmP4TwgwoAtgAOJU/Pr1az8GOHnyJELF69evGTCAuro6QsXXr1/rYaCyspKNjQ2owsXFBaoZohAO0tLSgNJiYmKPHz8Gco8cOYKiYvbs2UBpFhaWAwcOQEQ+fPiAUHHixAmI+RMmTIAL/of79vnz59LS0kDpmJgYZOn/cN/a2NgApQ0NDb99+4YsfebMGZCKOXPmQHyoqalpjwSA0sCAAamYPHkyLBRQwO7du6G24AeEVQAA75VxDWaTMioAAAAASUVORK5CYII=)
 
 ### Changes for java9 (needed in MacOsX)
 Java 9 introduced a new interface for images: MultiResolutionImage
-where Java 8 uses BufferedImage. Solution: use a multi-release jar and code different version sof a helper class.
+where Java 8 uses BufferedImage. Solution: use a multi-release jar and code different versions of a helper class.
 See [How To Use Multi-release JARs To Target Multiple Java Versions](https://nipafx.dev/multi-release-jars-multiple-java-versions/)
 
 `javac --release 8 -d bin src/clip2dataurl/*.java`
